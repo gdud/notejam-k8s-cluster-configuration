@@ -1,3 +1,4 @@
+---
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
@@ -12,20 +13,6 @@ spec:
   timeout: 30s
   url: ssh://git@github.com/gdud/notejam-k8s-cluster-configuration.git
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta1
-kind: GitRepository
-metadata:
-  name: apps
-  namespace: flux-system
-spec:
-  interval: 1m
-  ref:
-    branch: main
-  secretRef:
-    name: git-credentials-apps
-  timeout: 30s
-  url: ssh://git@github.com/gdud/notejam-k8s-apps.git
----
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
@@ -37,15 +24,3 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster-configuration
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: apps
-  namespace: flux-system
-spec:
-  interval: 1m
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: apps
